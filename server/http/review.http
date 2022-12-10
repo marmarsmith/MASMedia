@@ -1,0 +1,167 @@
+@url = http://localhost:8080/api/review
+@url2 = http://localhost:8080/api/profile
+
+### [ ] Admin login
+POST http://localhost:8080/authenticate HTTP/1.1
+Content-Type: application/json
+
+{
+  "username": "admin",
+  "password": "admin"
+}
+
+### [ ] User login
+POST http://localhost:8080/authenticate HTTP/1.1
+Content-Type: application/json
+
+{
+  "username": "user",
+  "password": "user"
+}
+### [ ] GET all reviews for one media title
+GET http://localhost:8080/api/search/review/1 HTTP/1.1
+
+### [ ] GET user reviews
+GET {{url2}}/user HTTP/1.1
+
+### [ ] GET admin reviews
+GET {{url2}}/admin HTTP/1.1
+
+### [ ] GET a review by ID
+GET {{url}}/id/1 HTTP/1.1
+
+### [ ] GET return a 404 if review is not found
+GET {{url}}/id/999 HTTP/1.1
+
+### [ ] POST a review
+POST {{url}}/add HTTP/1.1
+Content-Type: application/json
+
+{
+  "stars": 2,
+  "opinion": "Who is the author of this book???",
+  "user": {
+    "appUserId": 2
+  },
+  "media": {
+    "mediaId": 1
+  }
+}
+
+### [ ] GET a review by ID
+GET {{url}}/id/3 HTTP/1.1
+
+### [ ] For POST return a 400 if the Genre fails one of the domain rules
+### [ ] Review user and media are required
+POST {{url}} HTTP/1.1
+Content-Type: application/json
+
+{
+  "stars": 1
+}
+
+### [ ] For POST return a 400 if the review fails one of the domain rules
+### [ ] Review already exists
+POST {{url}}/add HTTP/1.1
+Content-Type: application/json
+
+{
+  "stars": 2,
+  "opinion": "Hmmm...",
+  "user": {
+    "appUserId": 1
+  },
+  "media": {
+    "mediaId": 2
+  }
+}
+
+### [ ] PUT an existing review
+PUT {{url2}}/user/1 HTTP/1.1
+Content-Type: application/json
+
+{
+  "reviewId": 1,
+  "stars": 1,
+  "opinion": "The author is #canceled.",
+  "user": {
+    "appUserId": 1
+  },
+  "media": {
+    "mediaId": 1
+  }
+}
+
+### [ ] For PUT return a 400 if the review fails one of the domain rules
+### [ ] Review user and media are required
+PUT {{url2}}/user/1 HTTP/1.1
+Content-Type: application/json
+
+{
+  "reviewId": 1,
+  "stars": 1,
+  "opinion": "Hmmm..."
+}
+
+### [ ] For PUT return a 400 if the review fails one of the domain rules
+### [ ] Review user and media must match
+PUT {{url}}/1 HTTP/1.1
+Content-Type: application/json
+
+{
+  "reviewId": 1,
+  "stars": 1,
+  "opinion": "Hmmm...",
+    "user": {
+    "appUserId": 2
+  },
+  "media": {
+    "mediaId": 2
+  }
+}
+
+### For PUT return a 409 if route path and requestbody don't match
+PUT {{url}}/1 HTTP/1.1
+Content-Type: application/json
+
+{
+  "reviewId": 2
+}
+
+### [ ] DELETE a review by ID
+DELETE {{url}}/id/3 HTTP/1.1
+
+### [ ] For DELETE Return a 404 if the alias is not found
+DELETE {{url}}/id/999 HTTP/1.1
+
+
+### [ ] Reference for creating review
+# {
+#   "stars": 2,
+#   "opinion": "Who is the author of this book???",
+#   "user": {
+#     "appUserId": 2,
+#     "username": "admin",
+#     "password": "$2a$10$z8mwVv2mOjkWkFuzxYUFcO6SH1FaEftCw4M2Ltv6/5x7nigwEJKIO",
+#     "enabled": true,
+#     "privateProfile": false,
+#     "authorities": [],
+#     "credentialsNonExpired": true,
+#     "accountNonExpired": true,
+#     "accountNonLocked": true
+#   },
+#   "media": {
+#     "mediaId": 1,
+#     "title": "Harry Potter",
+#     "year": 2007,
+#     "type": "BOOK",
+#     "link": "https://en.wikipedia.org/wiki/Harry_Potter",
+#     "mean_stars": 4.0,
+#     "genres": [
+#       {
+#         "genreId": 1,
+#         "name": "Sci-Fi"
+#       }
+#     ]
+#   }
+# }

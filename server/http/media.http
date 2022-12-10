@@ -1,0 +1,68 @@
+@url = http://localhost:8080/api/media
+
+### [ ] GET all media
+GET {{url}} HTTP/1.1
+
+### [ ] GET media by ID
+GET {{url}}/1 HTTP/1.1
+
+### [ ] GET a list of media by selecting genre
+GET {{url}}/search/1 HTTP/1.1
+
+### [ ] GET return a 404 if media is not found
+GET {{url}}/999 HTTP/1.1
+
+### [ ] For POST return a 201 if it works
+POST {{url}} HTTP/1.1
+Content-Type: application/json
+
+{
+  "title": "Wonders of the World",
+  "year": 2018,
+  "type": "BOOK",
+  "link": "www.help.com",
+  "mean_stars": 5.0
+}
+
+### [ ] For POST return a 400 if the media is already is in the database
+POST {{url}} HTTP/1.1
+Content-Type: application/json
+
+{
+  "title": "Wonders of the World",
+  "year": 2018,
+  "type": "BOOK",
+  "link": "www.help.com",
+  "mean_stars": 5.0
+}
+
+### [ ] For POST return a 400 if the media fails one of the domain rules
+POST {{url}} HTTP/1.1
+Content-Type: application/json
+
+{
+  "title": "",
+  "year": ""
+}
+
+### [ ] PUT an existing media
+PUT {{url}}/1 HTTP/1.1
+Content-Type: application/json
+
+{
+  "mediaId": 1,
+  "title": "Grimms Fairytales",
+  "year": 2018,
+  "type": "BOOK",
+  "link": "some.link",
+  "mean_stars": 4.0
+}
+
+### [ ] DELETE a media with genres attached, by ID
+DELETE {{url}}/2 HTTP/1.1
+
+### [ ] DELETE a media with NO genres attached, by ID
+DELETE {{url}}/3 HTTP/1.1
+
+### [ ] DELETE Return a 404 if the media is not found
+DELETE {{url}}/999 HTTP/1.1

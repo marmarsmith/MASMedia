@@ -1,0 +1,102 @@
+@url = http://localhost:8080/api/genre
+
+### [ ] GET all genres
+GET {{url}} HTTP/1.1
+
+### [ ] GET a genre by ID
+GET {{url}}/1 HTTP/1.1
+
+### [ ] GET return a 404 if genre is not found
+GET {{url}}/999 HTTP/1.1
+
+### [ ] Login as an Admin 
+POST http://localhost:8080/authenticate HTTP/1.1
+Content-Type: application/json
+
+{
+  "username": "admin",
+  "password": "admin"
+}
+
+
+### [ ] Post a Genre While logged in as an Admin 
+POST {{url}} HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJjYXBzdG9uZS1hcGkiLCJzdWIiOiJhZG1pbiIsImF1dGhvcml0aWVzIjoiQURNSU4iLCJhcHBVc2VySWQiOjIsImV4cCI6MTY2NjkwNzAyNX0.gf9zZifuNPv_nfWhxFyqVOfC5CGJl92BiQd4QNzaRfY
+
+{
+  "name": "Test"
+}
+
+
+### [ ] Should not Add not logged in as an Admin
+POST {{url}} HTTP/1.1
+Content-Type: application/json
+
+{}
+
+### [ ] For POST return a 400 if the Genre fails one of the domain rules
+### [ ] Genre name is required
+POST {{url}} HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJjYXBzdG9uZS1hcGkiLCJzdWIiOiJhZG1pbiIsImF1dGhvcml0aWVzIjoiQURNSU4iLCJhcHBVc2VySWQiOjIsImV4cCI6MTY2NjkwNzAyNX0.gf9zZifuNPv_nfWhxFyqVOfC5CGJl92BiQd4QNzaRfY
+
+{
+  "name": ""
+}
+
+### [ ] For POST return a 400 if the Genre fails one of the domain rules
+### [ ] Genre already exists
+POST {{url}} HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJjYXBzdG9uZS1hcGkiLCJzdWIiOiJhZG1pbiIsImF1dGhvcml0aWVzIjoiQURNSU4iLCJhcHBVc2VySWQiOjIsImV4cCI6MTY2NjkwNzAyNX0.gf9zZifuNPv_nfWhxFyqVOfC5CGJl92BiQd4QNzaRfY
+
+{
+  "name": "Sci-Fi"
+}
+
+### [ ] PUT an existing genre while logged in as an Admin
+PUT {{url}}/1 HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJjYXBzdG9uZS1hcGkiLCJzdWIiOiJhZG1pbiIsImF1dGhvcml0aWVzIjoiQURNSU4iLCJhcHBVc2VySWQiOjIsImV4cCI6MTY2NjkwNzAyNX0.gf9zZifuNPv_nfWhxFyqVOfC5CGJl92BiQd4QNzaRfY
+
+{
+  "genreId": 1,
+  "name": "Sci-Fi Updated"
+}
+
+### [ ] Should not update a Genre if not logged in as an Admin 
+POST {{url}} HTTP/1.1
+Content-Type: application/json
+
+{}
+
+### [ ] For PUT return a 400 if the security clearance fails one of the domain rules
+### [ ] Genre name is required
+PUT {{url}}/1 HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJjYXBzdG9uZS1hcGkiLCJzdWIiOiJhZG1pbiIsImF1dGhvcml0aWVzIjoiQURNSU4iLCJhcHBVc2VySWQiOjIsImV4cCI6MTY2NjkwNzAyNX0.gf9zZifuNPv_nfWhxFyqVOfC5CGJl92BiQd4QNzaRfY
+
+{
+  "genreId": 1,
+  "name": ""
+}
+
+### For PUT return a 409 if route path and requestbody don't match
+PUT {{url}}/1 HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJjYXBzdG9uZS1hcGkiLCJzdWIiOiJhZG1pbiIsImF1dGhvcml0aWVzIjoiQURNSU4iLCJhcHBVc2VySWQiOjIsImV4cCI6MTY2NjkwNzAyNX0.gf9zZifuNPv_nfWhxFyqVOfC5CGJl92BiQd4QNzaRfY
+
+{
+  "genreId": 2,
+  "name": ""
+}
+
+### [ ] DELETE a genre by ID
+DELETE {{url}}/2 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJjYXBzdG9uZS1hcGkiLCJzdWIiOiJhZG1pbiIsImF1dGhvcml0aWVzIjoiQURNSU4iLCJhcHBVc2VySWQiOjIsImV4cCI6MTY2NjkwNzAyNX0.gf9zZifuNPv_nfWhxFyqVOfC5CGJl92BiQd4QNzaRfY
+
+### [ ] For DELETE Return a 404 if the alias is not found
+DELETE {{url}}/999 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJjYXBzdG9uZS1hcGkiLCJzdWIiOiJhZG1pbiIsImF1dGhvcml0aWVzIjoiQURNSU4iLCJhcHBVc2VySWQiOjIsImV4cCI6MTY2NjkwNzAyNX0.gf9zZifuNPv_nfWhxFyqVOfC5CGJl92BiQd4QNzaRfY
+
